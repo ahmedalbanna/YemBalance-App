@@ -1,0 +1,6 @@
+{
+  "name": "حسابات المحل",
+  "description": "تطبيق متكامل لحسابات الدخل والخرج اليومية للمحلات والموظفين مع تسويات مالية ومزامنة محلية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
