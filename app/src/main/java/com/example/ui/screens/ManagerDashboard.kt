@@ -61,28 +61,27 @@ fun ManagerDashboard(
                     Column {
                         Text(
                             text = "لوحة المدير: ${currentUser.name}",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextLight
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = "إدارة المحل وموثق الإيرادات",
-                            fontSize = 12.sp,
-                            color = NeonTeal
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Default.ExitToApp, contentDescription = "تسجيل خروج", tint = DarkRed)
+                        Icon(Icons.Default.ExitToApp, contentDescription = "تسجيل خروج", tint = MaterialTheme.colorScheme.error)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = CardSlate)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
             )
         },
         bottomBar = {
             NavigationBar(
-                containerColor = CardSlate,
+                containerColor = MaterialTheme.colorScheme.surface,
                 tonalElevation = 8.dp
             ) {
                 tabs.forEach { (label, icon, index) ->
@@ -90,19 +89,19 @@ fun ManagerDashboard(
                         selected = selectedTab == index,
                         onClick = { selectedTab = index },
                         icon = { Icon(icon, contentDescription = label) },
-                        label = { Text(label, fontSize = 9.sp, fontWeight = FontWeight.Bold) },
+                        label = { Text(label, style = MaterialTheme.typography.labelSmall) },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color.White,
-                            selectedTextColor = NeonTeal,
-                            indicatorColor = NeonTeal,
-                            unselectedIconColor = TextMuted,
-                            unselectedTextColor = TextMuted
+                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            indicatorColor = MaterialTheme.colorScheme.primary,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     )
                 }
             }
         },
-        containerColor = CyberObsidian
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -179,10 +178,10 @@ fun TabOverview(
                         else -> RoundedCornerShape(0.dp)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isSelected) NeonTeal else CardSlate,
-                        contentColor = if (isSelected) Color.White else TextMuted
+                        containerColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                        contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                     ),
-                    border = BorderStroke(1.dp, if (isSelected) NeonTeal else BorderDark)
+                    border = BorderStroke(1.dp, if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -199,15 +198,14 @@ fun TabOverview(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, BorderDark, RoundedCornerShape(16.dp)),
-            colors = CardDefaults.cardColors(containerColor = CardSlate)
+                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(16.dp)),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = "الحالة المالية للمحل (${if (rangeFilter == "DAY") "اليوم" else if (rangeFilter == "MONTH") "هذا الشهر" else "هذا العام"})",
-                    fontSize = 14.sp,
-                    color = TextMuted,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(14.dp))
 
@@ -216,32 +214,31 @@ fun TabOverview(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column {
-                        Text("إجمالي الدخل (خدمات)", fontSize = 11.sp, color = TextMuted)
-                        Text("${totalIncome.toInt()} ر.ي", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = DarkGreen)
+                        Text("إجمالي الدخل (خدمات)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("${totalIncome.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
                     }
                     Column {
-                        Text("مصاريف المحل مقتنيات", fontSize = 11.sp, color = TextMuted)
-                        Text("${totalShopExpense.toInt()} ر.ي", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = TextLight)
+                        Text("مصاريف المحل مقتنيات", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("${totalShopExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                     }
                     Column {
-                        Text("سلف غذاء شخصي", fontSize = 11.sp, color = TextMuted)
-                        Text("${totalPersonalExpense.toInt()} ر.ي", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = DarkRed)
+                        Text("سلف غذاء شخصي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("${totalPersonalExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.error)
                     }
                 }
 
-                HorizontalDivider(thickness = 1.dp, color = BorderDark, modifier = Modifier.padding(vertical = 12.dp))
+                HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(vertical = 12.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("صافي الأرباح النقدية المودعة:", fontSize = 13.sp, color = TextMuted)
+                    Text("صافي الأرباح النقدية المودعة:", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(
                         text = "${netRevenue.toInt()} ريال",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Black,
-                        color = NeonTeal
+                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Black),
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -250,9 +247,8 @@ fun TabOverview(
         // Active Employee Check Indicators Today (satisfies: "المدير لديه علم بالموظفين النشطين")
         Text(
             text = "الموظفين النشطين اليوم وتتبع حركتهم:",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = TextLight
+            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         val employeesOnly = allUsers.filter { it.role == "EMPLOYEE" }
@@ -269,10 +265,10 @@ fun TabOverview(
                     .fillMaxWidth()
                     .border(
                         1.dp,
-                        if (isActive) NeonTeal.copy(alpha = 0.3f) else BorderDark,
+                        if (isActive) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.outline,
                         RoundedCornerShape(12.dp)
                     ),
-                colors = CardDefaults.cardColors(containerColor = CardSlate)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Row(
                     modifier = Modifier
@@ -291,35 +287,34 @@ fun TabOverview(
                                 modifier = Modifier
                                     .size(42.dp)
                                     .background(
-                                        if (isActive) NeonTeal.copy(alpha = 0.1f) else Color.DarkGray,
+                                        if (isActive) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else MaterialTheme.colorScheme.outlineVariant,
                                         shape = RoundedCornerShape(21.dp)
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     text = emp.name.take(1),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = if (isActive) NeonTeal else TextMuted
+                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                    color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                             Box(
                                 modifier = Modifier
                                     .size(11.dp)
-                                    .border(1.5.dp, CardSlate, RoundedCornerShape(5.5.dp))
+                                    .border(1.5.dp, MaterialTheme.colorScheme.surface, RoundedCornerShape(5.5.dp))
                                     .background(
-                                        if (isActive) DarkGreen else Color.Gray,
+                                        if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                                         shape = RoundedCornerShape(5.5.dp)
                                     )
                             )
                         }
 
                         Column {
-                            Text(emp.name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = TextLight)
+                            Text(emp.name, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                             Text(
                                 "تبيان اليوم • ${empTransToday.size} حركات مسجلة",
-                                fontSize = 11.sp,
-                                color = TextMuted
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
@@ -328,15 +323,14 @@ fun TabOverview(
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
                             text = if (isActive) "دخل: +${empIncome.toInt()} ر.ي" else "خارج الدوام",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (isActive) DarkGreen else TextMuted
+                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                            color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         if (isActive) {
                             Text(
                                 text = "خرج: -${empExp.toInt()} ر.ي",
-                                fontSize = 11.sp,
-                                color = DarkRed
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.error
                             )
                         }
                     }
@@ -369,22 +363,20 @@ fun TabSettlements(
     ) {
         Text(
             text = "استلام المبالغ وتصفية حسابات الورديات (اليوم)",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = TextLight
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         AnimatedVisibility(visible = showSuccessBanner != null) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = DarkGreen.copy(alpha = 0.15f)),
-                border = BorderStroke(1.dp, DarkGreen)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
             ) {
                 Text(
                     text = showSuccessBanner ?: "",
-                    color = DarkGreen,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(12.dp)
                 )
             }
@@ -423,10 +415,10 @@ fun TabSettlements(
                         .fillMaxWidth()
                         .border(
                             1.dp,
-                            if (alreadySettled) DarkGreen.copy(alpha = 0.4f) else BorderDark,
+                            if (alreadySettled) MaterialTheme.colorScheme.primary.copy(alpha = 0.4f) else MaterialTheme.colorScheme.outline,
                             RoundedCornerShape(12.dp)
                         ),
-                    colors = CardDefaults.cardColors(containerColor = CardSlate)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(modifier = Modifier.padding(14.dp)) {
                         Row(
@@ -436,24 +428,22 @@ fun TabSettlements(
                         ) {
                             Text(
                                 text = emp.name,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = TextLight
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onSurface
                             )
 
                             Box(
                                 modifier = Modifier
                                     .background(
-                                        color = if (alreadySettled) DarkGreen.copy(alpha = 0.15f) else Color.DarkGray,
+                                        color = if (alreadySettled) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f) else MaterialTheme.colorScheme.outlineVariant,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(horizontal = 8.dp, vertical = 4.dp)
                             ) {
                                 Text(
                                     text = if (alreadySettled) "✓ تمت التسوية والقبول" else "⌛ معلق ونشط",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (alreadySettled) DarkGreen else AccentYellow
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = if (alreadySettled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
                                 )
                             }
                         }
@@ -465,49 +455,48 @@ fun TabSettlements(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("العمليات المسجلة اليوم:", fontSize = 11.sp, color = TextMuted)
-                            Text("${myTransactionsToday.size} حركات", fontSize = 11.sp, color = TextLight, fontWeight = FontWeight.Bold)
+                            Text("العمليات المسجلة اليوم:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${myTransactionsToday.size} حركات", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                         }
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("مجموع دخل الوردية (الزبائن):", fontSize = 11.sp, color = TextMuted)
-                            Text("+${totalIncome.toInt()} ر.ي", fontSize = 11.sp, color = DarkGreen)
+                            Text("مجموع دخل الوردية (الزبائن):", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("+${totalIncome.toInt()} ر.ي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
                         }
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("مصاريف محل (مسددة من الموظف):", fontSize = 11.sp, color = TextMuted)
-                            Text("-${totalShopExpense.toInt()} ر.ي (لا تخصم)", fontSize = 11.sp, color = TextLight)
+                            Text("مصاريف محل (مسددة من الموظف):", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("-${totalShopExpense.toInt()} ر.ي (لا تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface)
                         }
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("سلف غذاء المسحوبة للموظف :", fontSize = 11.sp, color = TextMuted)
-                            Text("-${totalPersonalExpense.toInt()} ر.ي (تخصم)", fontSize = 11.sp, color = DarkRed)
+                            Text("سلف غذاء المسحوبة للموظف :", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("-${totalPersonalExpense.toInt()} ر.ي (تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error)
                         }
 
-                        HorizontalDivider(thickness = 0.5.dp, color = BorderDark, modifier = Modifier.padding(vertical = 8.dp))
+                        HorizontalDivider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(vertical = 8.dp))
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column {
-                                Text("المبلغ النقدي الواجب استلامه في الدرج:", fontSize = 11.sp, color = AccentYellow)
-                                Text("(صافي إيراد الدرج المطلوب تسليمه لك)", fontSize = 8.sp, color = TextMuted)
+                                Text("المبلغ النقدي الواجب استلامه في الدرج:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.tertiary)
+                                Text("(صافي إيراد الدرج المطلوب تسليمه لك)", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Text(
                                 text = "${cashierYield.toInt()} ر.ي",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = AccentYellow
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.tertiary
                             )
                         }
 
@@ -516,14 +505,13 @@ fun TabSettlements(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column {
-                                Text("مستحقات راتب وعمولة الموظف لليوم:", fontSize = 11.sp, color = NeonTeal)
-                                Text("(الراتب اليومي + النسبة - السُلف)", fontSize = 8.sp, color = TextMuted)
+                                Text("مستحقات راتب وعمولة الموظف لليوم:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+                                Text("(الراتب اليومي + النسبة - السُلف)", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Text(
                                 text = "${netCalculatedSalary.toInt()} ر.ي",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = NeonTeal
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
 
@@ -545,7 +533,7 @@ fun TabSettlements(
                                     )
                                 },
                                 modifier = Modifier.fillMaxWidth(),
-                                colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.Black),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary),
                                 shape = RoundedCornerShape(8.dp)
                             ) {
                                 Row(
@@ -553,7 +541,7 @@ fun TabSettlements(
                                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
                                     Icon(Icons.Default.PriceCheck, contentDescription = null, modifier = Modifier.size(16.dp))
-                                    Text("تصفية الحساب واستلام الإيرادات النقدي", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                    Text("تصفية الحساب واستلام الإيرادات النقدي", style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold))
                                 }
                             }
                         }
@@ -607,13 +595,12 @@ fun TabTransactionsCrud(
         ) {
             Text(
                 text = "سجل العمليات والبحث المالي والتعديل",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextLight
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             IconButton(onClick = { showAddManualDialog = true }) {
-                Icon(Icons.Default.PostAdd, contentDescription = "قيد حركة مالية", tint = NeonTeal)
+                Icon(Icons.Default.PostAdd, contentDescription = "قيد حركة مالية", tint = MaterialTheme.colorScheme.primary)
             }
         }
 
@@ -621,21 +608,21 @@ fun TabTransactionsCrud(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, BorderDark, RoundedCornerShape(12.dp)),
-            colors = CardDefaults.cardColors(containerColor = CardSlate)
+                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 // Text Search input
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("ابحث باسم الموظف أو البيان...", fontSize = 12.sp) },
+                    placeholder = { Text("ابحث باسم الموظف أو البيان...", style = MaterialTheme.typography.bodySmall) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(16.dp)) },
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = NeonTeal,
-                        unfocusedBorderColor = BorderDark,
-                        focusedTextColor = Color.White
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -648,13 +635,13 @@ fun TabTransactionsCrud(
                     OutlinedTextField(
                         value = searchDate,
                         onValueChange = { searchDate = it },
-                        placeholder = { Text("التاريخ كـ YYYY-MM-DD", fontSize = 11.sp) },
+                        placeholder = { Text("التاريخ كـ YYYY-MM-DD", style = MaterialTheme.typography.labelSmall) },
                         leadingIcon = { Icon(Icons.Default.CalendarMonth, contentDescription = null, modifier = Modifier.size(14.dp)) },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = NeonTeal,
-                            unfocusedBorderColor = BorderDark,
-                            focusedTextColor = Color.White
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         modifier = Modifier.weight(1.2f)
                     )
@@ -662,7 +649,7 @@ fun TabTransactionsCrud(
                     // Reset button for date filter
                     if (searchDate.isNotEmpty()) {
                         IconButton(onClick = { searchDate = "" }) {
-                            Icon(Icons.Default.Clear, contentDescription = "تصفية التاريخ", tint = DarkRed)
+                            Icon(Icons.Default.Clear, contentDescription = "تصفية التاريخ", tint = MaterialTheme.colorScheme.error)
                         }
                     }
                 }
@@ -673,19 +660,19 @@ fun TabTransactionsCrud(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text("موظف:", fontSize = 10.sp, color = TextMuted)
+                    Text("موظف:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     val employees = allUsers.filter { it.role == "EMPLOYEE" }
 
                     // All chip option
                     FilterChip(
                         selected = selectedEmployeeId == null,
                         onClick = { selectedEmployeeId = null },
-                        label = { Text("الكل", fontSize = 10.sp) },
+                        label = { Text("الكل", style = MaterialTheme.typography.labelSmall) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = NeonTeal.copy(alpha = 0.2f),
-                            selectedLabelColor = NeonTeal,
-                            containerColor = BorderDark,
-                            labelColor = TextMuted
+                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                            selectedLabelColor = MaterialTheme.colorScheme.primary,
+                            containerColor = MaterialTheme.colorScheme.outline,
+                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     )
 
@@ -693,12 +680,12 @@ fun TabTransactionsCrud(
                         FilterChip(
                             selected = selectedEmployeeId == emp.id,
                             onClick = { selectedEmployeeId = emp.id },
-                            label = { Text(emp.name, fontSize = 10.sp) },
+                            label = { Text(emp.name, style = MaterialTheme.typography.labelSmall) },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = NeonTeal.copy(alpha = 0.2f),
-                                selectedLabelColor = NeonTeal,
-                                containerColor = BorderDark,
-                                labelColor = TextMuted
+                                selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                selectedLabelColor = MaterialTheme.colorScheme.primary,
+                                containerColor = MaterialTheme.colorScheme.outline,
+                                labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         )
                     }
@@ -714,16 +701,15 @@ fun TabTransactionsCrud(
         ) {
             Text(
                 text = "العمليات الحسابية المطابقة (${filteredTransactions.size})",
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextLight
+                style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             // Dynamic Excel-style exporter preview
             Text(
                 text = "قيد التعديل متاح للمدير ✒",
-                fontSize = 11.sp,
-                color = TextMuted
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -745,8 +731,8 @@ fun TabTransactionsCrud(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, BorderDark, RoundedCornerShape(12.dp)),
-                        colors = CardDefaults.cardColors(containerColor = CardSlate)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                     ) {
                         Column(modifier = Modifier.padding(12.dp)) {
                             Row(
@@ -762,36 +748,34 @@ fun TabTransactionsCrud(
                                         modifier = Modifier
                                             .size(8.dp)
                                             .background(
-                                                color = if (trans.type == "INCOME") DarkGreen else DarkRed,
+                                                color = if (trans.type == "INCOME") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                                                 shape = RoundedCornerShape(4.dp)
                                             )
                                     )
                                     Text(
                                         text = trans.employeeName,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 13.sp,
-                                        color = NeonTeal
+                                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                     Text(
                                         text = "• ${trans.shiftDate}",
-                                        fontSize = 11.sp,
-                                        color = TextMuted
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
 
                                 Text(
                                     text = "${if (trans.type == "INCOME") "+" else "-"}${trans.amount.toInt()} ر.ي",
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (trans.type == "INCOME") DarkGreen else if (trans.expenseCategory == "SHOP") TextLight else DarkRed,
-                                    fontSize = 14.sp
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                                    color = if (trans.type == "INCOME") MaterialTheme.colorScheme.primary else if (trans.expenseCategory == "SHOP") MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                                 )
                             }
 
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = trans.description,
-                                fontSize = 13.sp,
-                                color = TextLight,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.padding(horizontal = 4.dp)
                             )
 
@@ -803,15 +787,14 @@ fun TabTransactionsCrud(
                                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                                     Text(
                                         text = if (trans.type == "INCOME") "دخل الزبائن" else if (trans.expenseCategory == "SHOP") "مقتنيات المحل" else "مصاريف شخصية",
-                                        fontSize = 11.sp,
-                                        color = TextMuted
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    Text("•", fontSize = 11.sp, color = TextMuted)
+                                    Text("•", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                     Text(
                                         text = if (trans.isCleared) "مسوى نقداً ✓" else "⌛ معلق",
-                                        fontSize = 11.sp,
-                                        color = if (trans.isCleared) DarkGreen else AccentYellow,
-                                        fontWeight = FontWeight.Bold
+                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                        color = if (trans.isCleared) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
                                     )
                                 }
 
@@ -822,13 +805,13 @@ fun TabTransactionsCrud(
                                         onClick = { showEditDialog = trans },
                                         modifier = Modifier.size(28.dp)
                                     ) {
-                                        Icon(Icons.Default.Edit, contentDescription = "تعديل", tint = NeonBlue, modifier = Modifier.size(16.dp))
+                                        Icon(Icons.Default.Edit, contentDescription = "تعديل", tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(16.dp))
                                     }
                                     IconButton(
                                         onClick = { showDeleteDialog = trans },
                                         modifier = Modifier.size(28.dp)
                                     ) {
-                                        Icon(Icons.Default.Delete, contentDescription = "حذف", tint = DarkRed, modifier = Modifier.size(16.dp))
+                                        Icon(Icons.Default.Delete, contentDescription = "حذف", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(16.dp))
                                     }
                                 }
                             }
@@ -849,24 +832,24 @@ fun TabTransactionsCrud(
 
         AlertDialog(
             onDismissRequest = { showEditDialog = null },
-            containerColor = CardSlate,
-            title = { Text("تعديل العملية المالية", color = TextLight, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text("تعديل العملية المالية", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Button(
                             onClick = { editType = "INCOME" },
                             modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = if (editType == "INCOME") DarkGreen else BorderDark)
+                            colors = ButtonDefaults.buttonColors(containerColor = if (editType == "INCOME") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
                         ) {
-                            Text("دخل", fontSize = 11.sp, color = Color.White)
+                            Text("دخل", style = MaterialTheme.typography.labelSmall, color = if (editType == "INCOME") MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         Button(
                             onClick = { editType = "EXPENSE" },
                             modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = if (editType == "EXPENSE") DarkRed else BorderDark)
+                            colors = ButtonDefaults.buttonColors(containerColor = if (editType == "EXPENSE") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline)
                         ) {
-                            Text("خرج", fontSize = 11.sp, color = Color.White)
+                            Text("خرج", style = MaterialTheme.typography.labelSmall, color = if (editType == "EXPENSE") MaterialTheme.colorScheme.onError else MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
 
@@ -875,13 +858,13 @@ fun TabTransactionsCrud(
                             Button(
                                 onClick = { editCat = "SHOP" },
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = if (editCat == "SHOP") NeonTeal.copy(alpha = 0.3f) else BorderDark)
-                            ) { Text("محل", fontSize = 10.sp, color = Color.White) }
+                                colors = ButtonDefaults.buttonColors(containerColor = if (editCat == "SHOP") MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.outline)
+                            ) { Text("محل", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface) }
                             Button(
                                 onClick = { editCat = "PERSONAL" },
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = if (editCat == "PERSONAL") DarkRed.copy(alpha = 0.3f) else BorderDark)
-                            ) { Text("شخصي", fontSize = 10.sp, color = Color.White) }
+                                colors = ButtonDefaults.buttonColors(containerColor = if (editCat == "PERSONAL") MaterialTheme.colorScheme.error.copy(alpha = 0.3f) else MaterialTheme.colorScheme.outline)
+                            ) { Text("شخصي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface) }
                         }
                     }
 
@@ -890,14 +873,14 @@ fun TabTransactionsCrud(
                         onValueChange = { editAmount = it },
                         label = { Text("المبلغ") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = TextLight, unfocusedTextColor = TextLight)
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)
                     )
 
                     OutlinedTextField(
                         value = editDesc,
                         onValueChange = { editDesc = it },
                         label = { Text("البيان") },
-                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = TextLight, unfocusedTextColor = TextLight)
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)
                     )
                 }
             },
@@ -915,11 +898,11 @@ fun TabTransactionsCrud(
                         )
                         showEditDialog = null
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                 ) { Text("تحديث الحفظ") }
             },
             dismissButton = {
-                TextButton(onClick = { showEditDialog = null }) { Text("إلغاء", color = TextMuted) }
+                TextButton(onClick = { showEditDialog = null }) { Text("إلغاء", color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
         )
     }
@@ -929,20 +912,20 @@ fun TabTransactionsCrud(
         val trans = showDeleteDialog!!
         AlertDialog(
             onDismissRequest = { showDeleteDialog = null },
-            containerColor = CardSlate,
-            title = { Text("تأكيد الحذف النهائي؟", color = TextLight, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
-            text = { Text("هل أنت متأكد من رغبتك في حذف العملية المالية من سجل الموظف ${trans.employeeName} بقيمة (${trans.amount.toInt()} ر.ي)؟ لا يمكن استرجاع هذا السجل قسرياً.", color = TextMuted, fontSize = 13.sp) },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text("تأكيد الحذف النهائي؟", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)) },
+            text = { Text("هل أنت متأكد من رغبتك في حذف العملية المالية من سجل الموظف ${trans.employeeName} بقيمة (${trans.amount.toInt()} ر.ي)؟ لا يمكن استرجاع هذا السجل قسرياً.", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium) },
             confirmButton = {
                 Button(
                     onClick = {
                         viewModel.managerDeleteTransaction(trans.id)
                         showDeleteDialog = null
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = DarkRed, contentColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error, contentColor = MaterialTheme.colorScheme.onError)
                 ) { Text("نعم، احذف") }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = null }) { Text("إلغاء", color = TextMuted) }
+                TextButton(onClick = { showDeleteDialog = null }) { Text("إلغاء", color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
         )
     }
@@ -960,14 +943,14 @@ fun TabTransactionsCrud(
 
         AlertDialog(
             onDismissRequest = { showAddManualDialog = false },
-            containerColor = CardSlate,
-            title = { Text("قيد عملية يدوية اختيارية", color = TextLight, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text("قيد عملية يدوية اختيارية", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)) },
             text = {
                 Column(
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text("اختر الموظف المستهدف:", fontSize = 11.sp, color = TextMuted)
+                    Text("اختر الموظف المستهدف:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -976,10 +959,10 @@ fun TabTransactionsCrud(
                             FilterChip(
                                 selected = trEmpId == em.id,
                                 onClick = { trEmpId = em.id },
-                                label = { Text(em.name, fontSize = 11.sp) },
+                                label = { Text(em.name, style = MaterialTheme.typography.labelSmall) },
                                 colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = NeonTeal.copy(alpha = 0.3f),
-                                    selectedLabelColor = NeonTeal
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                                    selectedLabelColor = MaterialTheme.colorScheme.primary
                                 )
                             )
                         }
@@ -991,13 +974,13 @@ fun TabTransactionsCrud(
                         Button(
                             onClick = { trType = "INCOME" },
                             modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = if (trType == "INCOME") DarkGreen else BorderDark)
-                        ) { Text("دخل", fontSize = 11.sp) }
+                            colors = ButtonDefaults.buttonColors(containerColor = if (trType == "INCOME") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
+                        ) { Text("دخل", style = MaterialTheme.typography.labelSmall, color = if (trType == "INCOME") MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant) }
                         Button(
                             onClick = { trType = "EXPENSE" },
                             modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = if (trType == "EXPENSE") DarkRed else BorderDark)
-                        ) { Text("خرج", fontSize = 11.sp) }
+                            colors = ButtonDefaults.buttonColors(containerColor = if (trType == "EXPENSE") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline)
+                        ) { Text("خرج", style = MaterialTheme.typography.labelSmall, color = if (trType == "EXPENSE") MaterialTheme.colorScheme.onError else MaterialTheme.colorScheme.onSurfaceVariant) }
                     }
 
                     if (trType == "EXPENSE") {
@@ -1005,13 +988,13 @@ fun TabTransactionsCrud(
                             Button(
                                 onClick = { trCat = "SHOP" },
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = if (trCat == "SHOP") NeonTeal.copy(alpha = 0.3f) else BorderDark)
-                            ) { Text("مقتنيات محل", fontSize = 10.sp) }
+                                colors = ButtonDefaults.buttonColors(containerColor = if (trCat == "SHOP") MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.outline)
+                            ) { Text("مقتنيات محل", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface) }
                             Button(
                                 onClick = { trCat = "PERSONAL" },
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = if (trCat == "PERSONAL") DarkRed.copy(alpha = 0.3f) else BorderDark)
-                            ) { Text("شخصي", fontSize = 10.sp) }
+                                colors = ButtonDefaults.buttonColors(containerColor = if (trCat == "PERSONAL") MaterialTheme.colorScheme.error.copy(alpha = 0.3f) else MaterialTheme.colorScheme.outline)
+                            ) { Text("شخصي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface) }
                         }
                     }
 
@@ -1020,21 +1003,21 @@ fun TabTransactionsCrud(
                         onValueChange = { trAmount = it },
                         label = { Text("المبلغ (ريال يمني)") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = TextLight, unfocusedTextColor = TextLight)
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)
                     )
 
                     OutlinedTextField(
                         value = trDesc,
                         onValueChange = { trDesc = it },
                         label = { Text("البيان والتعليق") },
-                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = TextLight, unfocusedTextColor = TextLight)
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)
                     )
 
                     OutlinedTextField(
                         value = trDate,
                         onValueChange = { trDate = it },
                         label = { Text("تاريخ العملية YYYY-MM-DD") },
-                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = TextLight, unfocusedTextColor = TextLight)
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)
                     )
                 }
             },
@@ -1055,11 +1038,11 @@ fun TabTransactionsCrud(
                         }
                         showAddManualDialog = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                 ) { Text("إدراج قسري") }
             },
             dismissButton = {
-                TextButton(onClick = { showAddManualDialog = false }) { Text("إلغاء", color = TextMuted) }
+                TextButton(onClick = { showAddManualDialog = false }) { Text("إلغاء", color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
         )
     }
@@ -1092,18 +1075,17 @@ fun TabEmployeesAndGeo(
         ) {
             Text(
                 text = "إدارة شؤون الحسابات وهيكل الأجور والموقع",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextLight
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Button(
                 onClick = { showAddEmployee = true },
-                colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     Icon(Icons.Default.PersonAdd, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Text("أضف موظف", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("أضف موظف", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
                 }
             }
         }
@@ -1113,8 +1095,8 @@ fun TabEmployeesAndGeo(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, BorderDark, RoundedCornerShape(12.dp)),
-                colors = CardDefaults.cardColors(containerColor = CardSlate)
+                    .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     Row(
@@ -1123,18 +1105,18 @@ fun TabEmployeesAndGeo(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
-                            Text(emp.name, fontSize = 15.sp, fontWeight = FontWeight.Bold, color = TextLight)
-                            Text("هاتف: ${emp.phone}", fontSize = 12.sp, color = TextMuted)
+                            Text(emp.name, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
+                            Text("هاتف: ${emp.phone}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
 
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             IconButton(onClick = { editEmployee = emp }) {
-                                Icon(Icons.Default.ManageAccounts, contentDescription = "تعديل", tint = NeonTeal)
+                                Icon(Icons.Default.ManageAccounts, contentDescription = "تعديل", tint = MaterialTheme.colorScheme.primary)
                             }
                             IconButton(onClick = { viewModel.managerDeleteEmployee(emp.id) }) {
-                                Icon(Icons.Default.DeleteForever, contentDescription = "حذف", tint = DarkRed)
+                                Icon(Icons.Default.DeleteForever, contentDescription = "حذف", tint = MaterialTheme.colorScheme.error)
                             }
                         }
                     }
@@ -1147,16 +1129,16 @@ fun TabEmployeesAndGeo(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("الراتب الدوامي الأساسي اليومي", fontSize = 10.sp, color = TextMuted)
-                            Text("${emp.baseSalary.toInt()} ر.ي", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextLight)
+                            Text("الراتب الدوامي الأساسي اليومي", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${emp.baseSalary.toInt()} ر.ي", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                         }
                         Column {
-                            Text("نسبة العقد (من دخل اليوم)", fontSize = 10.sp, color = TextMuted)
-                            Text("${emp.commissionPercent.toInt()}% نسبة", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = NeonTeal)
+                            Text("نسبة العقد (من دخل اليوم)", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${emp.commissionPercent.toInt()}% نسبة", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
                         }
                         Column {
-                            Text("رمز المرور السري الخاص", fontSize = 10.sp, color = TextMuted)
-                            Text(emp.password, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AccentYellow)
+                            Text("رمز المرور السري الخاص", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(emp.password, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.tertiary)
                         }
                     }
                 }
@@ -1168,23 +1150,22 @@ fun TabEmployeesAndGeo(
         // Virtual Coordinate and Boundary config (supports Shop geofence restriction)
         Text(
             text = "تثبيت وتحديد الموقع الجغرافي المعتمد للمحل:",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = TextLight
+            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, BorderDark, RoundedCornerShape(12.dp)),
-            colors = CardDefaults.cardColors(containerColor = CardSlate)
+                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 val currentLocName by viewModel.shopLocationName.collectAsState()
 
-                Icon(Icons.Default.LocationOn, contentDescription = null, tint = NeonTeal, modifier = Modifier.size(36.dp))
+                Icon(Icons.Default.LocationOn, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(36.dp))
 
-                Text("تحديد النطاق لصالون الحلاقة لفرض قيود تسجيل الحضور والغياب:", fontSize = 12.sp, color = TextMuted)
+                Text("تحديد النطاق لصالون الحلاقة لفرض قيود تسجيل الحضور والغياب:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
                 var inputLocName by remember { mutableStateOf(currentLocName) }
 
@@ -1193,26 +1174,26 @@ fun TabEmployeesAndGeo(
                     onValueChange = { inputLocName = it },
                     label = { Text("وصف احداثية موقع الصالون الجغرافي") },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = NeonTeal,
-                        unfocusedBorderColor = BorderDark,
-                        focusedTextColor = Color.White
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Button(
                     onClick = { viewModel.updateShopLocation(inputLocName) },
-                    colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("حفظ وتحديث ومحاكاة النطاق الجغرافي للصالون", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text("حفظ وتحديث ومحاكاة النطاق الجغرافي للصالون", style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold))
                 }
 
                 Text(
                     text = "سيقوم التطبيق تلقائياً بالتحقق من مطابقة جهاز الموظف مع هذا النظاق لمنع أي محاولة لتسجيل الدخول من خارج أوقات وموقع العمل المسجل.",
-                    fontSize = 10.sp,
-                    color = TextMuted,
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Start
                 )
             }
@@ -1229,8 +1210,8 @@ fun TabEmployeesAndGeo(
 
         AlertDialog(
             onDismissRequest = { showAddEmployee = false },
-            containerColor = CardSlate,
-            title = { Text("إنشاء حساب موظف جديد", color = TextLight, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text("إنشاء حساب موظف جديد", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedTextField(value = newName, onValueChange = { newName = it }, label = { Text("اسم الموظف") })
@@ -1250,11 +1231,11 @@ fun TabEmployeesAndGeo(
                         }
                         showAddEmployee = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                 ) { Text("إنشاء وتفعيل") }
             },
             dismissButton = {
-                TextButton(onClick = { showAddEmployee = false }) { Text("إلغاء", color = TextMuted) }
+                TextButton(onClick = { showAddEmployee = false }) { Text("إلغاء", color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
         )
     }
@@ -1271,8 +1252,8 @@ fun TabEmployeesAndGeo(
 
         AlertDialog(
             onDismissRequest = { editEmployee = null },
-            containerColor = CardSlate,
-            title = { Text("تعديل حساب موظف", color = TextLight, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text("تعديل حساب موظف", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedTextField(value = eName, onValueChange = { eName = it }, label = { Text("الاسم") })
@@ -1285,7 +1266,7 @@ fun TabEmployeesAndGeo(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("الحساب نشط ويسمح له بالعمل", color = TextMuted, fontSize = 12.sp)
+                        Text("الحساب نشط ويسمح له بالعمل", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelSmall)
                         Switch(checked = eActive, onCheckedChange = { eActive = it })
                     }
                 }
@@ -1298,11 +1279,11 @@ fun TabEmployeesAndGeo(
                         viewModel.managerUpdateEmployee(emp.id, eName, ePhone, ePass, base, comm, eActive)
                         editEmployee = null
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                 ) { Text("حفظ التغييرات") }
             },
             dismissButton = {
-                TextButton(onClick = { editEmployee = null }) { Text("إلغاء", color = TextMuted) }
+                TextButton(onClick = { editEmployee = null }) { Text("إلغاء", color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
         )
     }

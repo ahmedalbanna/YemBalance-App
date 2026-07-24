@@ -49,14 +49,14 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(CyberObsidian)
+            .background(MaterialTheme.colorScheme.background)
             .windowInsetsPadding(WindowInsets.statusBars)
     ) {
         // Decorative neon backdrop glow
         Box(
             modifier = Modifier
                 .size(300.dp)
-                .background(Brush.radialGradient(listOf(NeonTeal.copy(alpha = 0.08f), Color.Transparent)))
+                .background(Brush.radialGradient(listOf(MaterialTheme.colorScheme.primary.copy(alpha = 0.08f), Color.Transparent)))
                 .align(Alignment.TopCenter)
         )
 
@@ -71,7 +71,7 @@ fun LoginScreen(
             Icon(
                 imageVector = Icons.Default.Storefront,
                 contentDescription = "المحل المالي",
-                tint = NeonTeal,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(64.dp)
                     .padding(bottom = 8.dp)
@@ -80,16 +80,14 @@ fun LoginScreen(
             // Header Arabic Text
             Text(
                 text = "حسابات المحل المالي",
-                fontSize = 26.sp,
-                color = TextLight,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = "نظام الموظفين والواردات اليومية المترابطة",
-                fontSize = 14.sp,
-                color = TextMuted,
-                fontWeight = FontWeight.Normal,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 4.dp, bottom = 24.dp)
             )
@@ -99,8 +97,12 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
-                    .border(1.dp, if (isUserInShopRange) NeonTeal.copy(alpha = 0.3f) else DarkRed.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
-                colors = CardDefaults.cardColors(containerColor = CardSlate)
+                    .border(
+                        1.dp,
+                        if (isUserInShopRange) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.error.copy(alpha = 0.3f),
+                        RoundedCornerShape(12.dp)
+                    ),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -114,24 +116,23 @@ fun LoginScreen(
                         Column {
                             Text(
                                 text = "مقياس التحقق الجغرافي (GPS)",
-                                fontSize = 12.sp,
-                                color = TextMuted
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
                                 text = if (isUserInShopRange) "✓ داخل النطاق الجغرافي للمحل" else "☠ خارج نطاق المحل الجغرافي!",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = if (isUserInShopRange) NeonTeal else DarkRed
+                                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                                color = if (isUserInShopRange) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
                             )
                         }
                         Switch(
                             checked = isUserInShopRange,
                             onCheckedChange = { viewModel.setLocationConstraint(it) },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = NeonTeal,
-                                checkedTrackColor = NeonTeal.copy(alpha = 0.4f),
-                                uncheckedThumbColor = Color.Gray,
-                                uncheckedTrackColor = Color.DarkGray
+                                checkedThumbColor = MaterialTheme.colorScheme.primary,
+                                checkedTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
+                                uncheckedThumbColor = MaterialTheme.colorScheme.outline,
+                                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         )
                     }
@@ -139,8 +140,8 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = "الموقع المعتمد: $shopLocationName",
-                        fontSize = 11.sp,
-                        color = TextMuted,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -150,8 +151,8 @@ fun LoginScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, BorderDark, RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = CardSlate)
+                    .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(16.dp)),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
                     modifier = Modifier.padding(20.dp),
@@ -159,9 +160,8 @@ fun LoginScreen(
                 ) {
                     Text(
                         text = "تسجيل الدخول",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = TextLight,
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
 
@@ -170,14 +170,14 @@ fun LoginScreen(
                         value = phone,
                         onValueChange = { phone = it },
                         label = { Text("رقم الهاتف (المنشأ من المدير)") },
-                        leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null, tint = NeonTeal) },
+                        leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = NeonTeal,
-                            unfocusedBorderColor = BorderDark,
-                            focusedTextColor = TextLight,
-                            unfocusedTextColor = TextLight
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -187,13 +187,13 @@ fun LoginScreen(
                         value = password,
                         onValueChange = { password = it },
                         label = { Text("كلمة المرور") },
-                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = NeonTeal) },
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
                         trailingIcon = {
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                 Icon(
                                     imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                                     contentDescription = null,
-                                    tint = TextMuted
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         },
@@ -201,10 +201,10 @@ fun LoginScreen(
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = NeonTeal,
-                            unfocusedBorderColor = BorderDark,
-                            focusedTextColor = TextLight,
-                            unfocusedTextColor = TextLight
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -214,9 +214,8 @@ fun LoginScreen(
                         errorMessage?.let { msg ->
                             Text(
                                 text = msg,
-                                color = DarkRed,
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                                 modifier = Modifier.padding(vertical = 4.dp)
                             )
                         }
@@ -245,19 +244,24 @@ fun LoginScreen(
                                 }
                             )
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp)
                     ) {
                         if (isLoading) {
-                            CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(24.dp)
+                            )
                         } else {
                             Text(
                                 text = "دخول آمن للمساعد المالي",
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                             )
                         }
                     }
@@ -269,8 +273,8 @@ fun LoginScreen(
             // Preset Test Accounts Section
             Text(
                 text = "🔑 اضغط للتجربة الفورية لقيم قصص المستخدمين:",
-                fontSize = 11.sp,
-                color = TextMuted,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.align(Alignment.Start)
             )
 
@@ -294,12 +298,16 @@ fun LoginScreen(
                                 password = "123"
                                 errorMessage = null
                             },
-                        colors = CardDefaults.cardColors(containerColor = CardSlate),
-                        border = BorderStroke(1.dp, NeonTeal.copy(alpha = 0.2f))
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
                     ) {
                         Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("أحمد (موظف)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = NeonTeal)
-                            Text("771111111", fontSize = 10.sp, color = TextMuted)
+                            Text(
+                                "أحمد (موظف)",
+                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Text("771111111", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                     Card(
@@ -310,12 +318,16 @@ fun LoginScreen(
                                 password = "123"
                                 errorMessage = null
                             },
-                        colors = CardDefaults.cardColors(containerColor = CardSlate),
-                        border = BorderStroke(1.dp, NeonTeal.copy(alpha = 0.2f))
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
                     ) {
                         Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("علي (موظف)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = NeonTeal)
-                            Text("772222222", fontSize = 10.sp, color = TextMuted)
+                            Text(
+                                "علي (موظف)",
+                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Text("772222222", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }
@@ -333,12 +345,16 @@ fun LoginScreen(
                                 password = "123"
                                 errorMessage = null
                             },
-                        colors = CardDefaults.cardColors(containerColor = CardSlate),
-                        border = BorderStroke(1.dp, NeonTeal.copy(alpha = 0.2f))
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
                     ) {
                         Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("أسامة (موظف)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = NeonTeal)
-                            Text("773333333", fontSize = 10.sp, color = TextMuted)
+                            Text(
+                                "أسامة (موظف)",
+                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Text("773333333", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                     Card(
@@ -349,12 +365,16 @@ fun LoginScreen(
                                 password = "admin"
                                 errorMessage = null
                             },
-                        colors = CardDefaults.cardColors(containerColor = CardSlate),
-                        border = BorderStroke(1.dp, NeonBlue.copy(alpha = 0.4f))
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f))
                     ) {
                         Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("جلال (المدير)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = NeonBlue)
-                            Text("770000000", fontSize = 10.sp, color = TextMuted)
+                            Text(
+                                "جلال (المدير)",
+                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                            Text("770000000", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }

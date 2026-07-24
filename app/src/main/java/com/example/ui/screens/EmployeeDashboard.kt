@@ -78,35 +78,34 @@ fun EmployeeDashboard(
                     Column {
                         Text(
                             text = "مرحباً، ${user.name}",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextLight
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = "موظف صالون حلاقة • اليوم: $todayStr",
-                            color = TextMuted,
-                            fontSize = 12.sp
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Default.ExitToApp, contentDescription = "تسجيل خروج", tint = DarkRed)
+                        Icon(Icons.Default.ExitToApp, contentDescription = "تسجيل خروج", tint = MaterialTheme.colorScheme.error)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = CardSlate)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddDialog = true },
-                containerColor = NeonTeal,
-                contentColor = Color.Black
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
                 Icon(Icons.Default.Add, contentDescription = "إضافة حركة مالية")
             }
         },
-        containerColor = CyberObsidian
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -121,21 +120,20 @@ fun EmployeeDashboard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
-                        .background(CardSlate, RoundedCornerShape(8.dp))
-                        .border(1.dp, NeonTeal.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+                        .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
                         .padding(12.dp)
                 ) {
                     Text(
                         text = syncStatusText ?: "جاري المزامنة...",
-                        fontSize = 13.sp,
-                        color = NeonTeal,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     LinearProgressIndicator(
                         progress = { (syncProgress ?: 0) / 100f },
-                        color = NeonTeal,
-                        trackColor = Color.DarkGray,
+                        color = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.outlineVariant,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -147,8 +145,8 @@ fun EmployeeDashboard(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, BorderDark, RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = CardSlate)
+                    .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(16.dp)),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp)
@@ -160,9 +158,8 @@ fun EmployeeDashboard(
                     ) {
                         Text(
                             text = "ملخص الوردية اليومية",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 15.sp,
-                            color = TextLight
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -172,14 +169,14 @@ fun EmployeeDashboard(
                                 modifier = Modifier
                                     .size(8.dp)
                                     .background(
-                                        if (hasUnsettledTransactions) AccentYellow else DarkGreen,
+                                        if (hasUnsettledTransactions) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                             )
                             Text(
                                 text = if (hasUnsettledTransactions) "بانتظار تصفية المدير" else "تم تصفية حسابك من جلال",
-                                fontSize = 11.sp,
-                                color = if (hasUnsettledTransactions) AccentYellow else DarkGreen
+                                style = MaterialTheme.typography.labelSmall,
+                                color = if (hasUnsettledTransactions) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -193,22 +190,22 @@ fun EmployeeDashboard(
                     ) {
                         // Total Income
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
-                            Text("إجمالي الدخل", fontSize = 11.sp, color = TextMuted)
-                            Text("${totalIncome.toInt()} ر.ي", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = DarkGreen)
+                            Text("إجمالي الدخل", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${totalIncome.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
                         }
                         // Shop Expense
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
-                            Text("مصاريف محل (لا تخصم)", fontSize = 11.sp, color = TextMuted)
-                            Text("${totalShopExpense.toInt()} ر.ي", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = TextLight)
+                            Text("مصاريف محل (لا تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${totalShopExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                         }
                         // Personal Expense
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
-                            Text("مسحوبات شخصية (تخصم)", fontSize = 11.sp, color = TextMuted)
-                            Text("${totalPersonalExpense.toInt()} ر.ي", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = DarkRed)
+                            Text("مسحوبات شخصية (تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${totalPersonalExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.error)
                         }
                     }
 
-                    HorizontalDivider(thickness = 1.dp, color = BorderDark, modifier = Modifier.padding(vertical = 12.dp))
+                    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(vertical = 12.dp))
 
                     // Live Net Payout calculation
                     Row(
@@ -217,20 +214,19 @@ fun EmployeeDashboard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
-                            Text("صافي مستحقات راتبك لليوم:", fontSize = 12.sp, color = TextMuted)
+                            Text("صافي مستحقات راتبك لليوم:", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Row {
                                 Text(
                                     text = "الأساسي (${user.baseSalary.toInt()}) + عمولة ${user.commissionPercent.toInt()}% (${commissionEarned.toInt()})",
-                                    fontSize = 11.sp,
-                                    color = TextMuted
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }
                         Text(
                             text = "${netSalaryEarned.toInt()} ر.ي",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Black,
-                            color = NeonTeal
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
 
@@ -244,22 +240,22 @@ fun EmployeeDashboard(
                             Button(
                                 onClick = { viewModel.triggerSyncSimulation("WiFi") },
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = BorderDark),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.outlineVariant),
                                 contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)
                             ) {
-                                Icon(Icons.Default.Wifi, contentDescription = null, tint = NeonTeal, modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Wifi, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text("تزامن واي فاي", fontSize = 11.sp, color = textMutedHelper())
+                                Text("تزامن واي فاي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface)
                             }
                             Button(
                                 onClick = { viewModel.triggerSyncSimulation("Bluetooth") },
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = BorderDark),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.outlineVariant),
                                 contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)
                             ) {
-                                Icon(Icons.Default.Bluetooth, contentDescription = null, tint = NeonTeal, modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Bluetooth, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text("تزامن بلوتوث", fontSize = 11.sp, color = textMutedHelper())
+                                Text("تزامن بلوتوث", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface)
                             }
                         }
                     }
@@ -277,13 +273,13 @@ fun EmployeeDashboard(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("بحث في الحركات المالية...", fontSize = 13.sp) },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = TextMuted, modifier = Modifier.size(20.dp)) },
+                    placeholder = { Text("بحث في الحركات المالية...", style = MaterialTheme.typography.bodyMedium) },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp)) },
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = NeonTeal,
-                        unfocusedBorderColor = BorderDark,
-                        focusedTextColor = TextLight
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier.weight(1f)
                 )
@@ -308,18 +304,18 @@ fun EmployeeDashboard(
                     FilterChip(
                         selected = isSelected,
                         onClick = { filterType = type },
-                        label = { Text(label, fontSize = 11.sp) },
+                        label = { Text(label, style = MaterialTheme.typography.labelSmall) },
                         leadingIcon = { Icon(icon, contentDescription = null, modifier = Modifier.size(14.dp)) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = NeonTeal.copy(alpha = 0.2f),
-                            selectedLabelColor = NeonTeal,
-                            containerColor = CardSlate,
-                            labelColor = TextMuted,
-                            iconColor = TextMuted
+                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                            selectedLabelColor = MaterialTheme.colorScheme.primary,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            iconColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
                         border = FilterChipDefaults.filterChipBorder(
-                            borderColor = if (isSelected) NeonTeal else BorderDark,
-                            selectedBorderColor = NeonTeal,
+                            borderColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
+                            selectedBorderColor = MaterialTheme.colorScheme.primary,
                             enabled = true,
                             selected = isSelected
                         )
@@ -347,9 +343,8 @@ fun EmployeeDashboard(
 
             Text(
                 text = "سجل حركات اليوم (${filteredTransactions.size})",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextLight,
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
@@ -361,9 +356,9 @@ fun EmployeeDashboard(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.EventNote, contentDescription = null, tint = TextMuted, modifier = Modifier.size(48.dp))
+                        Icon(Icons.Default.EventNote, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(48.dp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("لا يوجد حركات مسجلة تطابق التصفية لليوم.", fontSize = 13.sp, color = TextMuted)
+                        Text("لا يوجد حركات مسجلة تطابق التصفية لليوم.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             } else {
@@ -375,8 +370,8 @@ fun EmployeeDashboard(
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, if (trans.isCleared) BorderDark else NeonTeal.copy(alpha = 0.15f), RoundedCornerShape(12.dp)),
-                            colors = CardDefaults.cardColors(containerColor = CardSlate)
+                                .border(1.dp, if (trans.isCleared) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.primary.copy(alpha = 0.15f), RoundedCornerShape(12.dp)),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -394,8 +389,8 @@ fun EmployeeDashboard(
                                             .size(40.dp)
                                             .background(
                                                 color = when (trans.type) {
-                                                    "INCOME" -> DarkGreen.copy(alpha = 0.1f)
-                                                    else -> if (trans.expenseCategory == "SHOP") Color.White.copy(alpha = 0.05f) else DarkRed.copy(alpha = 0.1f)
+                                                    "INCOME" -> MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                                                    else -> if (trans.expenseCategory == "SHOP") MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f) else MaterialTheme.colorScheme.error.copy(alpha = 0.1f)
                                                 },
                                                 shape = RoundedCornerShape(10.dp)
                                             ),
@@ -408,8 +403,8 @@ fun EmployeeDashboard(
                                             },
                                             contentDescription = null,
                                             tint = when (trans.type) {
-                                                "INCOME" -> DarkGreen
-                                                else -> if (trans.expenseCategory == "SHOP") TextLight else DarkRed
+                                                "INCOME" -> MaterialTheme.colorScheme.primary
+                                                else -> if (trans.expenseCategory == "SHOP") MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                                             },
                                             modifier = Modifier.size(20.dp)
                                         )
@@ -420,9 +415,8 @@ fun EmployeeDashboard(
                                             text = trans.description.ifEmpty {
                                                 if (trans.type == "INCOME") "دخل عمل يدوي" else "خرج مصروف"
                                             },
-                                            color = TextLight,
-                                            fontSize = 14.sp,
-                                            fontWeight = FontWeight.Bold
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                                         )
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,
@@ -434,14 +428,14 @@ fun EmployeeDashboard(
                                                     trans.expenseCategory == "SHOP" -> "مصاريف المحل"
                                                     else -> "غداء شخصي خصم"
                                                 },
-                                                fontSize = 11.sp,
-                                                color = TextMuted
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
-                                            Text("•", fontSize = 11.sp, color = TextMuted)
+                                            Text("•", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                             Text(
                                                 text = SimpleDateFormat("HH:mm", Locale.US).format(Date(trans.timestamp)),
-                                                fontSize = 11.sp,
-                                                color = TextMuted
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
                                         }
                                     }
@@ -450,24 +444,22 @@ fun EmployeeDashboard(
                                 Column(horizontalAlignment = Alignment.End) {
                                     Text(
                                         text = "${if (trans.type == "INCOME") "+" else "-"}${trans.amount.toInt()} ر.ي",
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 15.sp,
-                                        color = if (trans.type == "INCOME") DarkGreen else if (trans.expenseCategory == "SHOP") TextLight else DarkRed
+                                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                        color = if (trans.type == "INCOME") MaterialTheme.colorScheme.primary else if (trans.expenseCategory == "SHOP") MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                                     )
                                     Box(
                                         modifier = Modifier
                                             .padding(top = 4.dp)
                                             .background(
-                                                color = if (trans.isCleared) DarkGreen.copy(alpha = 0.15f) else AccentYellow.copy(alpha = 0.15f),
+                                                color = if (trans.isCleared) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f) else MaterialTheme.colorScheme.tertiary.copy(alpha = 0.15f),
                                                 shape = RoundedCornerShape(4.dp)
                                             )
                                             .padding(horizontal = 6.dp, vertical = 2.dp)
                                     ) {
                                         Text(
                                             text = if (trans.isCleared) "مسوى" else "معلق",
-                                            fontSize = 9.sp,
-                                            color = if (trans.isCleared) DarkGreen else AccentYellow,
-                                            fontWeight = FontWeight.Bold
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = if (trans.isCleared) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
                                         )
                                     }
                                 }
@@ -489,13 +481,12 @@ fun EmployeeDashboard(
 
         AlertDialog(
             onDismissRequest = { showAddDialog = false },
-            containerColor = CardSlate,
+            containerColor = MaterialTheme.colorScheme.surface,
             title = {
                 Text(
                     text = "تسجيل حركة مالية جديدة",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = TextLight,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Start
                 )
@@ -504,7 +495,7 @@ fun EmployeeDashboard(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text("نوع الحركة المالية:", fontSize = 12.sp, color = TextMuted)
+                    Text("نوع الحركة المالية:", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
                     // Type Choice tabs (Income vs Expense)
                     Row(
@@ -515,29 +506,29 @@ fun EmployeeDashboard(
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (entryType == "INCOME") DarkGreen else BorderDark,
-                                contentColor = if (entryType == "INCOME") Color.White else TextMuted
+                                containerColor = if (entryType == "INCOME") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
+                                contentColor = if (entryType == "INCOME") MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         ) {
-                            Text("دخل (إيرادات الزبائن)", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("دخل (إيرادات الزبائن)", style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold))
                         }
                         Button(
                             onClick = { entryType = "EXPENSE" },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (entryType == "EXPENSE") DarkRed else BorderDark,
-                                contentColor = if (entryType == "EXPENSE") Color.White else TextMuted
+                                containerColor = if (entryType == "EXPENSE") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outlineVariant,
+                                contentColor = if (entryType == "EXPENSE") MaterialTheme.colorScheme.onError else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         ) {
-                            Text("خرج (مصروفات صالون)", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("خرج (مصروفات صالون)", style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold))
                         }
                     }
 
                     // If Expense: choose type (Shop vs Personal)
                     if (entryType == "EXPENSE") {
                         Spacer(modifier = Modifier.height(4.dp))
-                        Text("ربط وتصنيف الخارج المالي:", fontSize = 12.sp, color = TextMuted)
+                        Text("ربط وتصنيف الخارج المالي:", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Row(
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -545,23 +536,23 @@ fun EmployeeDashboard(
                                 onClick = { expenseCat = "SHOP" },
                                 modifier = Modifier.weight(1f),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (expenseCat == "SHOP") NeonTeal.copy(alpha = 0.2f) else BorderDark,
-                                    contentColor = if (expenseCat == "SHOP") NeonTeal else TextMuted
+                                    containerColor = if (expenseCat == "SHOP") MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.outlineVariant,
+                                    contentColor = if (expenseCat == "SHOP") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                                 ),
                                 shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp)
                             ) {
-                                Text("للمحل (لا يخصم من راتبي)", fontSize = 10.sp)
+                                Text("للمحل (لا يخصم من راتبي)", style = MaterialTheme.typography.labelSmall)
                             }
                             Button(
                                 onClick = { expenseCat = "PERSONAL" },
                                 modifier = Modifier.weight(1f),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (expenseCat == "PERSONAL") NeonTeal.copy(alpha = 0.2f) else BorderDark,
-                                    contentColor = if (expenseCat == "PERSONAL") NeonTeal else TextMuted
+                                    containerColor = if (expenseCat == "PERSONAL") MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.outlineVariant,
+                                    contentColor = if (expenseCat == "PERSONAL") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                                 ),
                                 shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
                             ) {
-                                Text("شخصي ومصروف غداء (يخصم)", fontSize = 10.sp)
+                                Text("شخصي ومصروف غداء (يخصم)", style = MaterialTheme.typography.labelSmall)
                             }
                         }
                     }
@@ -575,10 +566,10 @@ fun EmployeeDashboard(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = NeonTeal,
-                            unfocusedBorderColor = BorderDark,
-                            focusedTextColor = TextLight,
-                            unfocusedTextColor = TextLight
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -588,10 +579,10 @@ fun EmployeeDashboard(
                         onValueChange = { descStr = it },
                         label = { Text("البيان والوصف (اختياري)") },
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = NeonTeal,
-                            unfocusedBorderColor = BorderDark,
-                            focusedTextColor = TextLight,
-                            unfocusedTextColor = TextLight
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -599,9 +590,8 @@ fun EmployeeDashboard(
                     AnimatedVisibility(visible = inputErr != null) {
                         Text(
                             text = inputErr ?: "",
-                            color = DarkRed,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold)
                         )
                     }
                 }
@@ -622,19 +612,20 @@ fun EmployeeDashboard(
                         )
                         showAddDialog = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = NeonTeal, contentColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
                 ) {
                     Text("حفظ الحركة وتوثيقها")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showAddDialog = false }) {
-                    Text("إلغاء", color = TextMuted)
+                    Text("إلغاء", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         )
     }
 }
 
-@Composable
-private fun textMutedHelper(): Color = TextLight
