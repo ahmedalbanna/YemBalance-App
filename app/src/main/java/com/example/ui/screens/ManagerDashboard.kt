@@ -14,8 +14,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import com.example.ui.ArabicNumerals
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,7 +52,7 @@ fun ManagerDashboard(
     val tabs = listOf(
         Triple("الإيرادات والنشاط", Icons.Default.Dashboard, 0),
         Triple("تصفية الحسابات", Icons.Default.Payments, 1),
-        Triple("إدارة العمليات", Icons.Default.ReceiptLong, 2),
+        Triple("إدارة العمليات", Icons.AutoMirrored.Filled.ReceiptLong, 2),
         Triple("شؤون الموظفين والموقع", Icons.Default.PeopleAlt, 3)
     )
 
@@ -73,7 +75,7 @@ fun ManagerDashboard(
                 },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Default.ExitToApp, contentDescription = "تسجيل خروج", tint = MaterialTheme.colorScheme.error)
+                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "تسجيل خروج", tint = MaterialTheme.colorScheme.error)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -215,15 +217,15 @@ fun TabOverview(
                 ) {
                     Column {
                         Text("إجمالي الدخل (خدمات)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text("${totalIncome.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
+                        Text(ArabicNumerals.formatCurrency(totalIncome), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
                     }
                     Column {
                         Text("مصاريف المحل مقتنيات", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text("${totalShopExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
+                        Text(ArabicNumerals.formatCurrency(totalShopExpense), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                     }
                     Column {
                         Text("سلف غذاء شخصي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text("${totalPersonalExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.error)
+                        Text(ArabicNumerals.formatCurrency(totalPersonalExpense), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.error)
                     }
                 }
 
@@ -236,7 +238,7 @@ fun TabOverview(
                 ) {
                     Text("صافي الأرباح النقدية المودعة:", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(
-                        text = "${netRevenue.toInt()} ريال",
+                        text = ArabicNumerals.formatCurrency(netRevenue, "ريال"),
                         style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Black),
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -312,7 +314,7 @@ fun TabOverview(
                         Column {
                             Text(emp.name, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                             Text(
-                                "تبيان اليوم • ${empTransToday.size} حركات مسجلة",
+                                "تبيان اليوم • ${ArabicNumerals.convert(empTransToday.size.toString())} حركات مسجلة",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -322,13 +324,13 @@ fun TabOverview(
                     // Tally indicators for the specific employee to view on-demand
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
-                            text = if (isActive) "دخل: +${empIncome.toInt()} ر.ي" else "خارج الدوام",
+                            text = if (isActive) "دخل: +${ArabicNumerals.convert(empIncome.toInt().toString())} ر.ي" else "خارج الدوام",
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                             color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         if (isActive) {
                             Text(
-                                text = "خرج: -${empExp.toInt()} ر.ي",
+                                text = "خرج: -${ArabicNumerals.convert(empExp.toInt().toString())} ر.ي",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.error
                             )
@@ -456,7 +458,7 @@ fun TabSettlements(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text("العمليات المسجلة اليوم:", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("${myTransactionsToday.size} حركات", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
+                            Text("${ArabicNumerals.convert(myTransactionsToday.size.toString())} حركات", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                         }
 
                         Row(
@@ -464,7 +466,7 @@ fun TabSettlements(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text("مجموع دخل الوردية (الزبائن):", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("+${totalIncome.toInt()} ر.ي", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+                            Text("+${ArabicNumerals.formatCurrency(totalIncome)}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
                         }
 
                         Row(
@@ -472,7 +474,7 @@ fun TabSettlements(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text("مصاريف محل (مسددة من الموظف):", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("-${totalShopExpense.toInt()} ر.ي (لا تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface)
+                            Text("-${ArabicNumerals.formatCurrency(totalShopExpense)} (لا تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface)
                         }
 
                         Row(
@@ -480,7 +482,7 @@ fun TabSettlements(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text("سلف غذاء المسحوبة للموظف :", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("-${totalPersonalExpense.toInt()} ر.ي (تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error)
+                            Text("-${ArabicNumerals.formatCurrency(totalPersonalExpense)} (تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error)
                         }
 
                         HorizontalDivider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(vertical = 8.dp))
@@ -494,7 +496,7 @@ fun TabSettlements(
                                 Text("(صافي إيراد الدرج المطلوب تسليمه لك)", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Text(
-                                text = "${cashierYield.toInt()} ر.ي",
+                                text = ArabicNumerals.formatCurrency(cashierYield),
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.tertiary
                             )
@@ -509,7 +511,7 @@ fun TabSettlements(
                                 Text("(الراتب اليومي + النسبة - السُلف)", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Text(
-                                text = "${netCalculatedSalary.toInt()} ر.ي",
+                                text = ArabicNumerals.formatCurrency(netCalculatedSalary),
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -528,7 +530,7 @@ fun TabSettlements(
                                         calculatedSalary = netCalculatedSalary,
                                         amountPaid = netCalculatedSalary,
                                         onSuccess = {
-                                            showSuccessBanner = "✓ تم نجاح استلام المبالغ (${cashierYield.toInt()} ر.ي) وتصفية وتصفير حساب الموظف ${emp.name} وصرف كامل مستحقاته لليوم!"
+                                            showSuccessBanner = "✓ تم نجاح استلام المبالغ (${ArabicNumerals.formatCurrency(cashierYield)}) وتصفية وتصفير حساب الموظف ${emp.name} وصرف كامل مستحقاته لليوم!"
                                         }
                                     )
                                 },
@@ -700,7 +702,7 @@ fun TabTransactionsCrud(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "العمليات الحسابية المطابقة (${filteredTransactions.size})",
+                text = "العمليات الحسابية المطابقة (${ArabicNumerals.convert(filteredTransactions.size.toString())})",
                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -758,14 +760,14 @@ fun TabTransactionsCrud(
                                         color = MaterialTheme.colorScheme.primary
                                     )
                                     Text(
-                                        text = "• ${trans.shiftDate}",
+                                        text = "• ${ArabicNumerals.convert(trans.shiftDate)}",
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
 
                                 Text(
-                                    text = "${if (trans.type == "INCOME") "+" else "-"}${trans.amount.toInt()} ر.ي",
+                                    text = "${if (trans.type == "INCOME") "+" else "-"}${ArabicNumerals.formatCurrency(trans.amount)}",
                                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                                     color = if (trans.type == "INCOME") MaterialTheme.colorScheme.primary else if (trans.expenseCategory == "SHOP") MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                                 )
@@ -914,7 +916,7 @@ fun TabTransactionsCrud(
             onDismissRequest = { showDeleteDialog = null },
             containerColor = MaterialTheme.colorScheme.surface,
             title = { Text("تأكيد الحذف النهائي؟", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)) },
-            text = { Text("هل أنت متأكد من رغبتك في حذف العملية المالية من سجل الموظف ${trans.employeeName} بقيمة (${trans.amount.toInt()} ر.ي)؟ لا يمكن استرجاع هذا السجل قسرياً.", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium) },
+            text = { Text("هل أنت متأكد من رغبتك في حذف العملية المالية من سجل الموظف ${trans.employeeName} بقيمة (${ArabicNumerals.formatCurrency(trans.amount)})؟ لا يمكن استرجاع هذا السجل قسرياً.", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -1130,11 +1132,11 @@ fun TabEmployeesAndGeo(
                     ) {
                         Column {
                             Text("الراتب الدوامي الأساسي اليومي", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("${emp.baseSalary.toInt()} ر.ي", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
+                            Text(ArabicNumerals.formatCurrency(emp.baseSalary), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                         }
                         Column {
                             Text("نسبة العقد (من دخل اليوم)", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("${emp.commissionPercent.toInt()}% نسبة", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
+                            Text("${ArabicNumerals.convert(emp.commissionPercent.toInt().toString())}% نسبة", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
                         }
                         Column {
                             Text("رمز المرور السري الخاص", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = MaterialTheme.colorScheme.onSurfaceVariant)

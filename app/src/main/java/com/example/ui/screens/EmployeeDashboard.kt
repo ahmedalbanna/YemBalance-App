@@ -10,8 +10,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import com.example.ui.ArabicNumerals
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -82,7 +84,7 @@ fun EmployeeDashboard(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "موظف صالون حلاقة • اليوم: $todayStr",
+                            text = "موظف صالون حلاقة • اليوم: ${ArabicNumerals.convert(todayStr)}",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -90,7 +92,7 @@ fun EmployeeDashboard(
                 },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Default.ExitToApp, contentDescription = "تسجيل خروج", tint = MaterialTheme.colorScheme.error)
+                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "تسجيل خروج", tint = MaterialTheme.colorScheme.error)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -191,17 +193,17 @@ fun EmployeeDashboard(
                         // Total Income
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
                             Text("إجمالي الدخل", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("${totalIncome.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
+                            Text(ArabicNumerals.formatCurrency(totalIncome), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
                         }
                         // Shop Expense
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
                             Text("مصاريف محل (لا تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("${totalShopExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
+                            Text(ArabicNumerals.formatCurrency(totalShopExpense), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.onSurface)
                         }
                         // Personal Expense
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
                             Text("مسحوبات شخصية (تخصم)", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("${totalPersonalExpense.toInt()} ر.ي", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.error)
+                            Text(ArabicNumerals.formatCurrency(totalPersonalExpense), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.error)
                         }
                     }
 
@@ -217,14 +219,14 @@ fun EmployeeDashboard(
                             Text("صافي مستحقات راتبك لليوم:", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Row {
                                 Text(
-                                    text = "الأساسي (${user.baseSalary.toInt()}) + عمولة ${user.commissionPercent.toInt()}% (${commissionEarned.toInt()})",
+                                    text = "الأساسي (${ArabicNumerals.convert(user.baseSalary.toInt().toString())}) + عمولة ${ArabicNumerals.convert(user.commissionPercent.toInt().toString())}% (${ArabicNumerals.convert(commissionEarned.toInt().toString())})",
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }
                         Text(
-                            text = "${netSalaryEarned.toInt()} ر.ي",
+                            text = ArabicNumerals.formatCurrency(netSalaryEarned),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -293,8 +295,8 @@ fun EmployeeDashboard(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 val filterOptions = listOf(
-                    Triple("ALL", "الكل", Icons.Default.List),
-                    Triple("INCOME", "الدخل (عمل)", Icons.Default.TrendingUp),
+                    Triple("ALL", "الكل", Icons.AutoMirrored.Filled.List),
+                    Triple("INCOME", "الدخل (عمل)", Icons.AutoMirrored.Filled.TrendingUp),
                     Triple("SHOP_EXP", "مصارف محل", Icons.Default.Store),
                     Triple("PERSONAL_EXP", "مصروف شخصي", Icons.Default.Person)
                 )
@@ -342,7 +344,7 @@ fun EmployeeDashboard(
             }
 
             Text(
-                text = "سجل حركات اليوم (${filteredTransactions.size})",
+                text = "سجل حركات اليوم (${ArabicNumerals.convert(filteredTransactions.size.toString())})",
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -356,7 +358,7 @@ fun EmployeeDashboard(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.EventNote, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(48.dp))
+                        Icon(Icons.AutoMirrored.Filled.EventNote, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(48.dp))
                         Spacer(modifier = Modifier.height(8.dp))
                         Text("لا يوجد حركات مسجلة تطابق التصفية لليوم.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
@@ -398,7 +400,7 @@ fun EmployeeDashboard(
                                     ) {
                                         Icon(
                                             imageVector = when (trans.type) {
-                                                "INCOME" -> Icons.Default.TrendingUp
+                                                "INCOME" -> Icons.AutoMirrored.Filled.TrendingUp
                                                 else -> if (trans.expenseCategory == "SHOP") Icons.Default.Store else Icons.Default.Person
                                             },
                                             contentDescription = null,
@@ -433,7 +435,7 @@ fun EmployeeDashboard(
                                             )
                                             Text("•", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                             Text(
-                                                text = SimpleDateFormat("HH:mm", Locale.US).format(Date(trans.timestamp)),
+                                                text = ArabicNumerals.convert(SimpleDateFormat("HH:mm", Locale.US).format(Date(trans.timestamp))),
                                                 style = MaterialTheme.typography.bodySmall,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
@@ -443,7 +445,7 @@ fun EmployeeDashboard(
 
                                 Column(horizontalAlignment = Alignment.End) {
                                     Text(
-                                        text = "${if (trans.type == "INCOME") "+" else "-"}${trans.amount.toInt()} ر.ي",
+                                        text = "${if (trans.type == "INCOME") "+" else "-"}${ArabicNumerals.formatCurrency(trans.amount)}",
                                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                         color = if (trans.type == "INCOME") MaterialTheme.colorScheme.primary else if (trans.expenseCategory == "SHOP") MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                                     )
